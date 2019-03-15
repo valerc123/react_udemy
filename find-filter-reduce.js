@@ -1,4 +1,4 @@
-// Metodos en arreglos
+// Metodos en arreglos (arrays)
 
 const personas = [
     {nombre: "juan", edad: 23, aprendiendo: 'php'},
@@ -10,5 +10,19 @@ const personas = [
 const mayores = personas.filter(x =>{
     return x.edad > 25;
 })
+//console.log(mayores)
 
-console.log(mayores)
+//encontrar a juan 
+const juan = personas.find(x => {
+    return x.nombre === 'juan';
+})
+//(console.log(juan)
+
+// suma de edades
+let total = personas.reduce((edadTotal, age) => {
+    return edadTotal + age.edad;
+}, 0);
+//console.log(total)
+
+//promedio de edades
+//console.log((total/ personas.length).toFixed(0))
