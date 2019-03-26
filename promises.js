@@ -23,8 +23,7 @@
 const descargarUsuarios = cantidad => new Promise((resolve, reject) =>{
     
     //pasar la cantidad a la  api
-
-    const api= `https://randomuser.me/api/?page=3&${cantidad}=10&seed=abc`;
+    const api= `https://randomuser.me/api/?results=${cantidad}=&nat=us`;
 
     //llamado ajax
     const xhr = new XMLHttpRequest();
@@ -34,25 +33,42 @@ const descargarUsuarios = cantidad => new Promise((resolve, reject) =>{
 
     //on load
     xhr.onload = () => {
-        if(xhr.status ===200) //200: si el llamado es correcto
+        if(xhr.status === 200) //200: si el llamado es correcto
         {
-            resolve(JSON.parse(xhr.responseText).results)
+            resolve(JSON.parse(xhr.responseText).results);
         } else {
             reject(Error(xhr.statusText));
         }
     }
 
+   //opcional (on error)
+   xhr.oneror = (error) => reject(error);
+
     //enviar
     xhr.send()
-
-    //opcional (on error)
-    xhr.onerror = (error) => reject(error);
 });
 
-descargarUsuarios(10)
+descargarUsuarios(20)
     .then(
-    miembros => console.log(miembros),
+    miembros => imprimirHTML(miembros),
     error => console.error(
         new Error('Hubo un error' + error)
     )
-)
+);
+function imprimirHTML(usuarios){
+    let html= " ";
+    usuarios.forEach(usuario => {
+        html += `
+        <li>
+            Nombre: ${usuario.name.first} ${usuario.name.last}
+            País: ${usuario.nat}
+            Imagen:
+                <img src="${usuario.picture.medium}">
+        </li>
+        `;
+    });
+
+    const contenedorApp= document.querySelector('#app');
+    contenedorApp.innerHTML = html;
+}
+
