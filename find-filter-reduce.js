@@ -15,7 +15,7 @@ const mayores = personas.filter(x =>{
 //encontrar a juan 
 const juan = personas.find(x => {
     return x.nombre === 'juan';
-})
+})       
 //(console.log(juan)
 
 // suma de edades
